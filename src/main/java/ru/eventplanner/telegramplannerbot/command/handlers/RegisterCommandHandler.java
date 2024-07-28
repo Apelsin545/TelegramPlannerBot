@@ -1,5 +1,6 @@
 package ru.eventplanner.telegramplannerbot.command.handlers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -9,6 +10,7 @@ import ru.eventplanner.telegramplannerbot.command.TelegramCommand;
 import ru.eventplanner.telegramplannerbot.command.TelegramCommandHandler;
 import ru.eventplanner.telegramplannerbot.integration.UserManagementService.UserManager;
 
+@Slf4j
 @Component
 public class RegisterCommandHandler implements TelegramCommandHandler {
     private final UserManager userManager;
@@ -20,6 +22,8 @@ public class RegisterCommandHandler implements TelegramCommandHandler {
 
     @Override
     public BotApiMethod<?> processCommand(Message message) {
+        log.info("Processing command: {}", message.getText());
+
         var userName = message.getFrom().getUserName();
 
         var chatId = message.getChatId();
@@ -33,8 +37,9 @@ public class RegisterCommandHandler implements TelegramCommandHandler {
             return messageBuilder
                     .text("Укажите имя после команды /register")
                     .build();
-        else
-            userManager.saveUser(chatId, textArr[1], userName);
+
+        var savedUser = userManager.saveUser(chatId, textArr[1], userName);
+        log.info("Saved user: {}", savedUser);
 
         return messageBuilder
                 .text("Имя успешно зарегистрировано!")

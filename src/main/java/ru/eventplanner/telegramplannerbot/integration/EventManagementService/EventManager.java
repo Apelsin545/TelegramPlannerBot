@@ -31,4 +31,14 @@ public class EventManager {
         log.info("Searching participant with id: {}", id);
         return restTemplate.getForObject(url + "/event/" + id, Event.class);
     }
+
+    public Participant getParticipantByPK(String eventId, String userId) {
+        log.info("Searching participant with event id - {} and user id - {}", eventId, userId);
+        return restTemplate.getForObject(url + "/participant?eventId=" + eventId + "&userId=" + userId, Participant.class);
+    }
+
+    public void updateParticipantStatus(Participant participant) {
+        log.info("Updating participant status: {}", participant);
+        restTemplate.put(url + "/participant", participant);
+    }
 }

@@ -6,8 +6,8 @@ public enum TelegramCommand {
     CREATE_EVENT_COMMAND("/createevent"),
     INVITE_COMMAND("/invite"),
     SHOW_EVENTS_COMMAND("/events"),
-    CONFIRM_EVENT_COMMAND("/events"),
-    CANCEL_EVENT_COMMAND("/events");
+    ACCEPT_EVENT_COMMAND("/accept"),
+    REJECT_EVENT_COMMAND("/reject");
 
     private final String command;
 

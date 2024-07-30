@@ -17,18 +17,17 @@ public class UserManager {
         this.restTemplate = restTemplate;
     }
 
-    public User saveUser(Long chatId, String name, String userName) {
+    public User saveUser(User user) {
         String url = "http://localhost:8082/user";
+        log.info("Saving user: {}", user);
 
-        var user = User.builder()
-                .id(chatId)
-                .name(name)
-                .userName(userName)
-                .build();
+        return restTemplate.postForObject(url, user, User.class);
+    }
 
-        var postedUser = restTemplate.postForObject(url, user, User.class);
-        log.info("saveUser() response: {}", postedUser);
+    public User getByUserName(String userName) {
+        String url = "http://localhost:8082/user/name/" + userName;
+        log.info("Searching by user name: {}", userName);
 
-        return postedUser;
+        return restTemplate.getForObject(url, User.class);
     }
 }

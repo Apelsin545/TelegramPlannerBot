@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import ru.eventplanner.telegramplannerbot.TelegramBot;
 import ru.eventplanner.telegramplannerbot.command.TelegramCommand;
 import ru.eventplanner.telegramplannerbot.command.TelegramCommandHandler;
 import ru.eventplanner.telegramplannerbot.integration.EventManagementService.Event;
@@ -28,8 +29,8 @@ public class CreateEventCommandHandler implements TelegramCommandHandler {
     public BotApiMethod<?> processCommand(Message message) {
         log.info("Processing command: {}", message.getText());
 
-        var textArr = message.getText().trim().split(" ");
-        var chatId = message.getChatId();
+        String[] textArr = message.getText().trim().split(" ");
+        Long chatId = message.getChatId();
         var messageBuilder = SendMessage.builder()
                 .chatId(chatId);
 
@@ -38,22 +39,22 @@ public class CreateEventCommandHandler implements TelegramCommandHandler {
                     .text("Неправильный ввод, введите команду /createevent <Название события> <Дата и время>")
                     .build();
 
-        var startDateTime = LocalDateTime.parse(textArr[2]);
+        LocalDateTime startDateTime = LocalDateTime.parse(textArr[2]);
         if (startDateTime.isBefore(LocalDateTime.now()))
             return messageBuilder
                     .text("Эта дата уже прошла, введите заново")
                     .build();
 
-        var event = Event.builder()
+        Event event = Event.builder()
                 .name(textArr[1])
                 .startDateTime(startDateTime)
                 .createdBy(message.getFrom().getId())
                 .build();
-        var savedEvent = eventManager.saveEvent(event);
-        log.info("Saved event: {}", savedEvent);
+        Event savedEvent = eventManager.saveEvent(event);
 
         return messageBuilder
-                .text("Событие сохранено!")
+                .text("Событие сохранено! Вы можете приглашать своих друзей по идентификатору события - "
+                        + savedEvent.getId())
                 .build();
     }
 

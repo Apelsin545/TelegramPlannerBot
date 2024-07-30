@@ -35,4 +35,9 @@ public class TelegramBot extends TelegramLongPollingBot {
             sendApiMethod(sendMessage);
         }
     }
+
+    @SneakyThrows
+    public void sendMessage(SendMessage sendMessage) {
+        sendApiMethod(sendMessage);
+    }
 }

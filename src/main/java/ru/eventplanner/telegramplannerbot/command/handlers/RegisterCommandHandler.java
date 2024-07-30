@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.eventplanner.telegramplannerbot.command.TelegramCommand;
 import ru.eventplanner.telegramplannerbot.command.TelegramCommandHandler;
+import ru.eventplanner.telegramplannerbot.integration.UserManagementService.User;
 import ru.eventplanner.telegramplannerbot.integration.UserManagementService.UserManager;
 
 @Slf4j
@@ -38,8 +39,12 @@ public class RegisterCommandHandler implements TelegramCommandHandler {
                     .text("Укажите имя после команды /register")
                     .build();
 
-        var savedUser = userManager.saveUser(chatId, textArr[1], userName);
-        log.info("Saved user: {}", savedUser);
+        User savedUser = userManager.saveUser(
+                User.builder()
+                        .id(chatId)
+                        .name(textArr[1])
+                        .userName(userName).build()
+        );
 
         return messageBuilder
                 .text("Имя успешно зарегистрировано!")

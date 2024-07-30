@@ -2,12 +2,13 @@ package ru.eventplanner.telegramplannerbot.integration.EventManagementService;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.Data;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Builder
-@ToString
+@Data
 public class Event {
     @JsonProperty("id")
     private final Long id;

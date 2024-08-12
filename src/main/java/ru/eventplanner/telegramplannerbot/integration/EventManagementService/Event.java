@@ -30,4 +30,13 @@ public class Event {
 
     @JsonProperty("end_date_time")
     private final LocalDateTime endDateTime;
+
+    @Override
+    public String toString() {
+        return "Событие '" + name + '\'' + "\n" +
+                "Описание: '" + description + '\'' + "\n" +
+                "Локация: '" + location + '\'' + "\n" +
+                "Начало события: " + startDateTime + "\n" +
+                "Конец события: " + endDateTime;
+    }
 }

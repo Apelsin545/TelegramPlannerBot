@@ -51,7 +51,7 @@ public class InviteCommandHandler implements TelegramCommandHandler {
                     .text("Только создатель может приглашать пользователей!")
                     .build();
 
-        var invitedUserId = userManager.getByUserName(textArr[2])
+        Long invitedUserId = userManager.getByUserName(textArr[2])
                 .getId();
         if (!Objects.equals(chatId, invitedUserId))
             return messageBuilder

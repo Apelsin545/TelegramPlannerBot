@@ -42,7 +42,7 @@ public class AcceptEventHandler implements TelegramCommandHandler {
         }
         
         participant.setStatus(Participant.Status.ACCEPTED);
-        eventManager.saveParticipant(participant);
+        eventManager.updateParticipantStatus(participant);
 
         return messageBuilder
                 .text("Приглашение принято!")
